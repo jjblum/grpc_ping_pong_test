@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package ping_pong_pose;
+
+service PingPongPose_Service
+{
+  rpc AskForPose (stream PoseRequest) returns (stream PoseReply) {}
+}
+
+message PoseRequest
+{
+  int32 count = 1;
+  int64 timestamp = 2;
+}
+
+message PoseReply
+{
+  int32 count = 1;
+  int64 timestamp = 2;
+  repeated double pose = 3;
+}

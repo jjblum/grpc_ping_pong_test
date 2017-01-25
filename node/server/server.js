@@ -8,7 +8,7 @@ var grpc = require('grpc');
 var ping_pong_pose = grpc.load(PROTO_PATH).ping_pong_pose; // the package
 
 var message_count = 0;
-var SIMULATED_WAIT_TIME_MS = 1000; 
+var SIMULATED_WAIT_TIME_MS; 
 var last_call;
 
 // implement the rpc method
@@ -23,6 +23,9 @@ function askForPose(call) {
                       chance.floating({min:0, max: 1}),
                       chance.floating({min:0, max: 1})
                     ]};
+
+    SIMULATED_WAIT_TIME_MS = _.max([50, Math.floor(chance.normal({mean: 100, dev:100}))]);
+    console.log("wait for " + SIMULATED_WAIT_TIME_MS + " ms");
     _.delay(function(response_) {
               call.write(response_)
             }, SIMULATED_WAIT_TIME_MS, response);
